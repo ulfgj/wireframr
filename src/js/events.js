@@ -1,19 +1,46 @@
 import { canvasState } from './canvas.js';
 
 /**
- * Attach drag-to-move behavior with 5px grid snapping
+ * Attach drag-to-move behavior with 5px grid snapping and multi-selection group dragging
  */
 export function attachDragHandlers(element, resizer, labelElement) {
   element.addEventListener('mousedown', (e) => {
     if (e.target === resizer || labelElement.isContentEditable) return;
-    canvasState.selectShape(element);
 
-    const startX = e.clientX - element.offsetLeft;
-    const startY = e.clientY - element.offsetTop;
+    // Handle shift-click for toggle
+    if (e.shiftKey) {
+      canvasState.toggleShapeSelection(element);
+      return;
+    }
+
+    // If clicking an unselected shape without shift, select only it
+    if (!canvasState.isSelected(element)) {
+      canvasState.selectShape(element);
+    }
+
+    // Capture initial positions for all currently selected shapes
+    const selectedElements = Array.from(canvasState.selectedShapes);
+    const startMouseX = e.clientX;
+    const startMouseY = e.clientY;
+
+    const initialPositions = selectedElements.map((el) => ({
+      el,
+      startLeft: el.offsetLeft,
+      startTop: el.offsetTop,
+    }));
 
     function onMove(ev) {
-      element.style.left = Math.round((ev.clientX - startX) / 5) * 5 + 'px';
-      element.style.top = Math.round((ev.clientY - startY) / 5) * 5 + 'px';
+      const deltaX = ev.clientX - startMouseX;
+      const deltaY = ev.clientY - startMouseY;
+
+      // Snap deltas to 5px grid
+      const snappedDeltaX = Math.round(deltaX / 5) * 5;
+      const snappedDeltaY = Math.round(deltaY / 5) * 5;
+
+      for (const item of initialPositions) {
+        item.el.style.left = `${item.startLeft + snappedDeltaX}px`;
+        item.el.style.top = `${item.startTop + snappedDeltaY}px`;
+      }
     }
 
     function onUp() {
@@ -74,21 +101,107 @@ export function attachTextEditHandlers(element, labelElement) {
 }
 
 /**
+ * Rubberband / Marquee selection from canvas background
+ */
+export function initMarqueeSelection() {
+  const canvas = canvasState.canvasElement;
+
+  canvas.addEventListener('mousedown', (e) => {
+    // Only trigger when clicking directly on canvas or body, not on shapes/toolbar
+    if (e.target !== canvas && e.target !== document.body) return;
+
+    // Deselect existing shapes unless Shift is held
+    if (!e.shiftKey) {
+      canvasState.clearSelection();
+    }
+
+    const startX = e.clientX;
+    const startY = e.clientY;
+
+    const selectionBox = document.createElement('div');
+    selectionBox.className = 'selection-box';
+    selectionBox.style.left = `${startX}px`;
+    selectionBox.style.top = `${startY}px`;
+    selectionBox.style.width = '0px';
+    selectionBox.style.height = '0px';
+    document.body.appendChild(selectionBox);
+
+    const allShapes = Array.from(document.querySelectorAll('.shape'));
+    const initialSelected = new Set(canvasState.selectedShapes);
+
+    function onMove(ev) {
+      const currentX = ev.clientX;
+      const currentY = ev.clientY;
+
+      const boxLeft = Math.min(startX, currentX);
+      const boxTop = Math.min(startY, currentY);
+      const boxWidth = Math.abs(currentX - startX);
+      const boxHeight = Math.abs(currentY - startY);
+
+      selectionBox.style.left = `${boxLeft}px`;
+      selectionBox.style.top = `${boxTop}px`;
+      selectionBox.style.width = `${boxWidth}px`;
+      selectionBox.style.height = `${boxHeight}px`;
+
+      const boxRight = boxLeft + boxWidth;
+      const boxBottom = boxTop + boxHeight;
+
+      // Check intersection with each shape
+      const newlySelected = [];
+      for (const shape of allShapes) {
+        const sLeft = shape.offsetLeft;
+        const sTop = shape.offsetTop;
+        const sRight = sLeft + shape.offsetWidth;
+        const sBottom = sTop + shape.offsetHeight;
+
+        // AABB intersection check
+        const intersects = !(
+          sRight < boxLeft ||
+          sLeft > boxRight ||
+          sBottom < boxTop ||
+          sTop > boxBottom
+        );
+
+        if (intersects || (e.shiftKey && initialSelected.has(shape))) {
+          newlySelected.push(shape);
+        }
+      }
+
+      canvasState.selectShapes(newlySelected);
+    }
+
+    function onUp() {
+      window.removeEventListener('mousemove', onMove);
+      window.removeEventListener('mouseup', onUp);
+      selectionBox.remove();
+    }
+
+    window.addEventListener('mousemove', onMove);
+    window.addEventListener('mouseup', onUp);
+  });
+}
+
+/**
  * Global keyboard shortcuts
  */
 export function initKeyboardShortcuts() {
   window.addEventListener('keydown', (e) => {
-    const selected = canvasState.selected;
-    const isEditingText = selected && selected.querySelector('span')?.isContentEditable;
+    if (!canvasState.hasSelection()) return;
+
+    // Check if any selected shape is actively being edited
+    const isEditingText = Array.from(canvasState.selectedShapes).some(
+      (shape) => shape.querySelector('span')?.isContentEditable
+    );
+    if (isEditingText) return;
 
     // Delete key shortcut
-    if ((e.key === 'Backspace' || e.key === 'Delete') && selected && !isEditingText) {
+    if (e.key === 'Backspace' || e.key === 'Delete') {
       canvasState.deleteSelected();
       return;
     }
 
     // Duplicate shortcut: Cmd+D (Mac) or Ctrl+D (Windows/Linux)
-    if ((e.metaKey || e.ctrlKey) && (e.key === 'd' || e.key === 'D') && selected && !isEditingText) {
+    if ((e.metaKey || e.ctrlKey) && (e.key === 'd' || e.key === 'D')) {
       e.preventDefault();
       canvasState.duplicateSelected();
     }

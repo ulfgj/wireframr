@@ -1,6 +1,6 @@
 import { canvasState } from './canvas.js';
 import { createShape } from './shapes.js';
-import { initKeyboardShortcuts } from './events.js';
+import { initKeyboardShortcuts, initMarqueeSelection } from './events.js';
 
 function initApp() {
   // Bind toolbar buttons
@@ -11,12 +11,8 @@ function initApp() {
   document.getElementById('btn-delete')?.addEventListener('click', () => canvasState.deleteSelected());
   document.getElementById('btn-clear')?.addEventListener('click', () => canvasState.clearCanvas());
 
-  // Deselect on canvas/background click
-  window.addEventListener('mousedown', (e) => {
-    if (e.target === document.body || e.target === canvasState.canvasElement) {
-      canvasState.selectShape(null);
-    }
-  });
+  // Init drag box selection from outside items
+  initMarqueeSelection();
 
   // Init global shortcuts
   initKeyboardShortcuts();
