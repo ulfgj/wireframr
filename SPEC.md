@@ -17,16 +17,19 @@ Wireframr is a lightweight, browser-based wireframing tool for rapid low-fidelit
    - Duplicate selected shapes (clones all selected preserving relative layout).
    - Delete selected shape(s).
    - Clear all canvas elements.
+   - Integrated right-side utility controls (separated by a vertical divider): Settings Cogwheel (`#btn-settings`) and Shortcuts & Hints (`#btn-help` / `?`).
+   - Responsive positioning: centered on wide viewports while clamping its left edge (`min 325px`) so resizing the browser window never causes the toolbar to overlap the top-left brand logo.
 4. **Shapes & Manipulation**:
    - Initial centered placement with slight random jitter.
-   - Snapping to a 5px grid during drag-to-move and corner resizing (against a 10px dot grid).
+   - Configurable grid snapping (`5px` default; `Off`/1px, `5px`, `10px`, `20px`) during drag-to-move, corner resizing, and initial placement (against a 10px dot grid).
    - Group dragging: moving one selected shape translates all selected shapes in sync.
-   - Layer stacking control: configurable "Bring clicked item to front" setting on direct click (while marquee selection always preserves relative layer order), plus explicit `[` (Send to Back) and `]` (Bring to Front) keyboard shortcuts.
+   - Translucent drag feedback: shapes apply `.dragging` (`opacity: var(--drag-opacity)`, default 60%) once mouse movement starts so underlying shapes and grid dots remain visible while positioning.
+   - Layer stacking control: configurable "Bring clicked item to front" setting on direct click (while marquee selection always preserves relative layer order), plus explicit `[` / `]` single-step z-index layer movement and `Shift + [` / `Shift + ]` to send all the way to back/front.
    - Distinct appearance for Box (`.box`), Circle (`.circle`), and Text (`.text`).
-   - Incremental automatic naming on creation and duplication using a unified high-water mark + canvas prefix scan (e.g. duplicating `Box! 5` when `Box! 8` already exists names the new item `Box! 9`).
+   - Collision-free incremental auto-numbering on creation and duplication using a unified high-water mark + canvas prefix scan (e.g. duplicating `Box! 5` when `Box! 8` already exists names the new item `Box! 9`, and clicking `+ Box` next creates `Box! 10`).
    - Resizer handle displayed at bottom-right corner when selected.
-   - Proportional scaling: holding `Shift`, `Cmd`, or `Ctrl` while dragging corner locks aspect ratio.
-   - Duplication preserves shape dimensions, assigns the next globally unused prefix number, and offsets by (+20px, +20px).
+   - Proportional scaling: holding `Shift`, `Cmd`, or `Ctrl` while dragging corner locks aspect ratio with uniform scale projection.
+   - Duplication preserves shape dimensions, assigns the next globally unused prefix number, and offsets diagonally by (+20px, +20px).
 5. **Text Editing**:
    - Double-click to inline edit text content.
    - Select all text on double click; exit edit mode on blur.
