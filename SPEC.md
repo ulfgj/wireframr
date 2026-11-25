@@ -18,7 +18,8 @@ Wireframr is a lightweight, browser-based wireframing tool for rapid low-fidelit
    - Initial centered placement with slight random jitter.
    - Snapping to a 5px grid during drag-to-move and corner resizing (against a 10px dot grid).
    - Group dragging: moving one selected shape translates all selected shapes in sync.
-   - Z-index elevation when selecting, creating, or duplicating elements.
+   - Stable layer stacking: selecting a shape preserves its original z-index so shapes behind stay behind until explicitly reordered.
+   - Z-index elevation occurs only upon creating or duplicating new elements.
    - Distinct appearance for Box (`.box`), Circle (`.circle`), and Text (`.text`).
    - Resizer handle displayed at bottom-right corner when selected.
    - Duplication preserves shape dimensions, label text, and type with an offset (+20px, +20px).

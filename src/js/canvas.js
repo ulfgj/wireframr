@@ -38,7 +38,6 @@ class CanvasState {
     if (!element) return;
     this.selectedShapes.add(element);
     element.classList.add('selected');
-    element.style.zIndex = this.nextZIndex();
   }
 
   removeShapeFromSelection(element) {
@@ -66,7 +65,6 @@ class CanvasState {
     // Select new elements
     for (const shape of newSet) {
       shape.classList.add('selected');
-      shape.style.zIndex = this.nextZIndex();
     }
     this.selectedShapes = newSet;
   }
