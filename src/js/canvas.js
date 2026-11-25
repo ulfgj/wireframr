@@ -1,4 +1,4 @@
-import { createShape } from './shapes.js';
+import { createShape, resetShapeCounters } from './shapes.js';
 
 /**
  * Canvas state management with multi-selection support
@@ -91,7 +91,20 @@ class CanvasState {
       }
 
       const span = el.querySelector('span');
-      const label = span ? span.innerText : '';
+      const currentLabel = span ? span.innerText.trim() : '';
+
+      // Increment trailing number if present, otherwise append " 2"
+      let newLabel;
+      const match = currentLabel.match(/^(.*?)(\d+)$/);
+      if (match) {
+        const prefix = match[1];
+        const num = parseInt(match[2], 10) + 1;
+        newLabel = `${prefix}${num}`;
+      } else if (currentLabel) {
+        newLabel = `${currentLabel} 2`;
+      } else {
+        newLabel = '';
+      }
 
       const currentLeft = el.offsetLeft;
       const currentTop = el.offsetTop;
@@ -104,7 +117,7 @@ class CanvasState {
         top: currentTop + 20,
         width,
         height,
-        label,
+        label: newLabel,
       });
 
       newClones.push(newShape);
@@ -127,6 +140,7 @@ class CanvasState {
       this.canvasElement.innerHTML = '';
     }
     this.selectedShapes.clear();
+    resetShapeCounters();
   }
 }
 

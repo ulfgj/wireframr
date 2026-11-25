@@ -5,19 +5,32 @@ const SHAPE_CONFIG = {
   box: {
     defaultWidth: 160,
     defaultHeight: 100,
-    defaultLabel: 'Container',
+    defaultLabel: 'Box!',
   },
   circle: {
     defaultWidth: 100,
     defaultHeight: 100,
-    defaultLabel: 'Node',
+    defaultLabel: 'Circle!',
   },
   text: {
     defaultWidth: 160,
     defaultHeight: 40,
-    defaultLabel: 'Label',
+    defaultLabel: 'Text Label',
   },
 };
+
+// Per-type incremental counters
+export const shapeCounters = {
+  box: 0,
+  circle: 0,
+  text: 0,
+};
+
+export function resetShapeCounters() {
+  shapeCounters.box = 0;
+  shapeCounters.circle = 0;
+  shapeCounters.text = 0;
+}
 
 /**
  * Factory function to create and render a shape
@@ -41,7 +54,14 @@ export function createShape(type, options = {}) {
   const top = options.top !== undefined ? options.top : defaultTop;
   const width = options.width !== undefined ? options.width : config.defaultWidth;
   const height = options.height !== undefined ? options.height : config.defaultHeight;
-  const labelText = options.label !== undefined ? options.label : config.defaultLabel;
+
+  let labelText;
+  if (options.label !== undefined) {
+    labelText = options.label;
+  } else {
+    shapeCounters[type] = (shapeCounters[type] || 0) + 1;
+    labelText = `${config.defaultLabel} ${shapeCounters[type]}`;
+  }
 
   el.style.left = `${Math.round(left / 5) * 5}px`;
   el.style.top = `${Math.round(top / 5) * 5}px`;
