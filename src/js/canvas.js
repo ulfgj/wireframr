@@ -1,4 +1,4 @@
-import { createShape, resetShapeCounters } from './shapes.js';
+import { createShape, getNextShapeLabel, resetShapeCounters } from './shapes.js';
 import { settings } from './settings.js';
 
 /**
@@ -144,20 +144,8 @@ class CanvasState {
       }
 
       const span = el.querySelector('span');
-      const currentLabel = span ? span.innerText.trim() : '';
-
-      // Increment trailing number if present, otherwise append " 2"
-      let newLabel;
-      const match = currentLabel.match(/^(.*?)(\d+)$/);
-      if (match) {
-        const prefix = match[1];
-        const num = parseInt(match[2], 10) + 1;
-        newLabel = `${prefix}${num}`;
-      } else if (currentLabel) {
-        newLabel = `${currentLabel} 2`;
-      } else {
-        newLabel = '';
-      }
+      const currentLabel = span ? (span.textContent || '').replace(/\s+/g, ' ').trim() : '';
+      const newLabel = getNextShapeLabel(type, currentLabel);
 
       const currentLeft = el.offsetLeft;
       const currentTop = el.offsetTop;

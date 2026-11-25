@@ -23,10 +23,10 @@ Wireframr is a lightweight, browser-based wireframing tool for rapid low-fidelit
    - Group dragging: moving one selected shape translates all selected shapes in sync.
    - Layer stacking control: configurable "Bring clicked item to front" setting on direct click (while marquee selection always preserves relative layer order), plus explicit `[` (Send to Back) and `]` (Bring to Front) keyboard shortcuts.
    - Distinct appearance for Box (`.box`), Circle (`.circle`), and Text (`.text`).
-   - Incremental automatic naming on creation (e.g. `Box! 1`, `Circle! 1`, `Text Label 1`).
+   - Incremental automatic naming on creation and duplication using a unified high-water mark + canvas prefix scan (e.g. duplicating `Box! 5` when `Box! 8` already exists names the new item `Box! 9`).
    - Resizer handle displayed at bottom-right corner when selected.
    - Proportional scaling: holding `Shift`, `Cmd`, or `Ctrl` while dragging corner locks aspect ratio.
-   - Duplication preserves shape dimensions, increments trailing number, and types with an offset (+20px, +20px).
+   - Duplication preserves shape dimensions, assigns the next globally unused prefix number, and offsets by (+20px, +20px).
 5. **Text Editing**:
    - Double-click to inline edit text content.
    - Select all text on double click; exit edit mode on blur.

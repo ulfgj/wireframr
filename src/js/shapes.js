@@ -34,6 +34,52 @@ export function resetShapeCounters() {
 }
 
 /**
+ * Compute the next unique incremental label for a shape prefix by checking
+ * both the per-type high-water counter and all existing labels on the canvas.
+ * @param {string} type - 'box' | 'circle' | 'text'
+ * @param {string} [sourceLabel] - Optional existing label when duplicating
+ * @returns {string}
+ */
+export function getNextShapeLabel(type, sourceLabel) {
+  const config = SHAPE_CONFIG[type] || SHAPE_CONFIG.box;
+  let basePrefix = config.defaultLabel;
+
+  if (sourceLabel !== undefined) {
+    const trimmed = sourceLabel.replace(/\s+/g, ' ').trim();
+    if (!trimmed) return '';
+    const match = trimmed.match(/^(.*?)\s*(\d+)$/);
+    basePrefix = match && match[1].trim() ? match[1].trim() : trimmed;
+  }
+
+  const isDefaultPrefix = basePrefix === config.defaultLabel;
+  let maxNum = isDefaultPrefix ? (shapeCounters[type] || 0) : 1;
+
+  // Scan all shapes on the canvas for the highest number with this prefix (or of this shape type)
+  const canvasEl = canvasState.canvasElement || document.getElementById('canvas');
+  if (canvasEl) {
+    const spans = canvasEl.querySelectorAll('.shape span');
+    for (const span of spans) {
+      const text = (span.textContent || '').replace(/\s+/g, ' ').trim();
+      const match = text.match(/^(.*?)\s*(\d+)$/);
+      if (match) {
+        const prefix = match[1].trim();
+        const num = parseInt(match[2], 10);
+        if (prefix === basePrefix || (isDefaultPrefix && span.parentElement?.classList.contains(type))) {
+          maxNum = Math.max(maxNum, num);
+        }
+      } else if (text === basePrefix) {
+        maxNum = Math.max(maxNum, 1);
+      }
+    }
+  }
+
+  const nextNum = maxNum + 1;
+  shapeCounters[type] = Math.max(shapeCounters[type] || 0, nextNum);
+
+  return `${basePrefix} ${nextNum}`;
+}
+
+/**
  * Factory function to create and render a shape
  * @param {string} type - 'box' | 'circle' | 'text'
  * @param {Object} [options] - Optional custom geometry and label
@@ -60,8 +106,7 @@ export function createShape(type, options = {}) {
   if (options.label !== undefined) {
     labelText = options.label;
   } else {
-    shapeCounters[type] = (shapeCounters[type] || 0) + 1;
-    labelText = `${config.defaultLabel} ${shapeCounters[type]}`;
+    labelText = getNextShapeLabel(type);
   }
 
   el.style.left = `${snapToGrid(left)}px`;
