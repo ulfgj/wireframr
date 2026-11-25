@@ -1,8 +1,9 @@
 #toolbar {
   position: fixed;
   top: 16px;
-  left: 50%;
-  transform: translateX(-50%);
+  /* Stays centered on wide viewports, but clamps at min 320px left edge to avoid covering the 285px logo */
+  left: max(325px, calc(50% - (var(--toolbar-width, 420px) / 2)));
+  transform: none;
   background: #ffffff;
   padding: 8px 12px;
   border-radius: 8px;
@@ -11,6 +12,24 @@
   gap: 8px;
   z-index: 1000;
   border: 1px solid #e2e8f0;
+  white-space: nowrap;
+}
+
+/* On compact mobile screens, wrap toolbar neatly or adjust below header */
+@media (max-width: 768px) {
+  #toolbar {
+    left: auto;
+    right: 16px;
+    top: 16px;
+  }
+}
+
+@media (max-width: 600px) {
+  #toolbar {
+    top: 76px;
+    left: 16px;
+    right: auto;
+  }
 }
 
 #toolbar button {
