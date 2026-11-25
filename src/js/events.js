@@ -54,19 +54,51 @@ export function attachDragHandlers(element, resizer, labelElement) {
 }
 
 /**
- * Attach resize behavior with 5px grid snapping
+ * Attach resize behavior with 5px grid snapping and aspect-ratio locking (Shift, Cmd, or Ctrl)
  */
 export function attachResizeHandlers(element, resizer) {
   resizer.addEventListener('mousedown', (e) => {
     e.stopPropagation();
+    e.preventDefault(); // Prevent text selection or browser drag gestures during resize
+
     const startW = element.offsetWidth;
     const startH = element.offsetHeight;
+    const aspectRatio = startW / startH;
+    const isSquare = Math.abs(aspectRatio - 1) < 0.02; // e.g. circles
     const startX = e.clientX;
     const startY = e.clientY;
 
     function onResize(ev) {
-      const newW = Math.max(30, Math.round((startW + ev.clientX - startX) / 5) * 5);
-      const newH = Math.max(30, Math.round((startH + ev.clientY - startY) / 5) * 5);
+      const lockAspect = ev.shiftKey || ev.metaKey || ev.ctrlKey;
+      const dragX = ev.clientX - startX;
+      const dragY = ev.clientY - startY;
+
+      let newW;
+      let newH;
+
+      if (lockAspect) {
+        // Uniform scaling based on the dominant mouse movement
+        let scale;
+        if (Math.abs(dragX) >= Math.abs(dragY * aspectRatio)) {
+          scale = Math.max(0.1, (startW + dragX) / startW);
+        } else {
+          scale = Math.max(0.1, (startH + dragY) / startH);
+        }
+
+        if (isSquare) {
+          // Strictly keep width == height for circles and squares
+          const side = Math.max(30, Math.round((startW * scale) / 5) * 5);
+          newW = side;
+          newH = side;
+        } else {
+          newW = Math.max(30, Math.round((startW * scale) / 5) * 5);
+          newH = Math.max(30, Math.round((newW / aspectRatio) / 5) * 5);
+        }
+      } else {
+        newW = Math.max(30, Math.round((startW + dragX) / 5) * 5);
+        newH = Math.max(30, Math.round((startH + dragY) / 5) * 5);
+      }
+
       element.style.width = newW + 'px';
       element.style.height = newH + 'px';
     }

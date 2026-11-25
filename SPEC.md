@@ -25,6 +25,7 @@ Wireframr is a lightweight, browser-based wireframing tool for rapid low-fidelit
    - Z-index elevation occurs only upon creating or duplicating new elements.
    - Distinct appearance for Box (`.box`), Circle (`.circle`), and Text (`.text`).
    - Resizer handle displayed at bottom-right corner when selected.
+   - Proportional scaling: holding `Shift`, `Cmd`, or `Ctrl` while dragging corner locks aspect ratio.
    - Duplication preserves shape dimensions, label text, and type with an offset (+20px, +20px).
 5. **Text Editing**:
    - Double-click to inline edit text content.
