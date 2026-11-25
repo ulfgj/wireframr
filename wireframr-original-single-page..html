@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Quick Wireframe</title>
+<style>
+  * { box-sizing: border-box; user-select: none; }
+  body {
+    margin: 0; font-family: system-ui, sans-serif; overflow: hidden;
+    background-color: #f8f9fa;
+    background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+  #toolbar {
+    position: fixed; top: 16px; left: 50%; transform: translateX(-50%);
+    background: #fff; padding: 8px 12px; border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1); display: flex; gap: 8px; z-index: 1000;
+    border: 1px solid #e2e8f0;
+  }
+  button {
+    background: #fff; border: 1px solid #cbd5e1; border-radius: 6px;
+    padding: 6px 12px; cursor: pointer; font-size: 13px; font-weight: 500;
+    color: #334155; transition: all 0.1s;
+  }
+  button:hover { background: #f1f5f9; border-color: #94a3b8; }
+  button.danger { color: #dc2626; }
+  button.danger:hover { background: #fef2f2; border-color: #fca5a5; }
+  
+  .shape {
+    position: absolute; display: flex; align-items: center; justify-content: center;
+    cursor: grab; font-size: 14px; color: #1e293b; text-align: center;
+    padding: 8px; word-break: break-word;
+  }
+  .shape:active { cursor: grabbing; }
+  .shape.selected { outline: 2px solid #3b82f6; outline-offset: 2px; }
+  
+  .box {
+    background: #ffffff; border: 2px solid #475569; border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  }
+  .circle {
+    background: #ffffff; border: 2px solid #475569; border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  }
+  .text {
+    background: transparent; border: 1px dashed transparent; font-weight: 600;
+  }
+  .text:hover, .text.selected { border-color: #94a3b8; }
+
+  .resizer {
+    width: 10px; height: 10px; background: #3b82f6; border-radius: 2px;
+    position: absolute; right: -5px; bottom: -5px; cursor: nwse-resize;
+    display: none;
+  }
+  .shape.selected .resizer { display: block; }
+  
+  #hint {
+    position: fixed; bottom: 12px; left: 16px; font-size: 12px; color: #64748b;
+    background: rgba(255,255,255,0.8); padding: 4px 8px; border-radius: 4px;
+  }
+</style>
+</head>
+<body>
+
+<div id="toolbar">
+  <button onclick="addShape('box')">+ Box</button>
+  <button onclick="addShape('circle')">+ Circle</button>
+  <button onclick="addShape('text')">+ Text</button>
+  <button class="danger" onclick="deleteSelected()">Delete</button>
+  <button onclick="clearCanvas()">Clear All</button>
+</div>
+
+<div id="canvas"></div>
+<div id="hint">Drag to move • Drag corner to resize • Double-click to edit text • Backspace to delete</div>
+
+<script>
+  const canvas = document.getElementById('canvas');
+  let selected = null;
+  let zIndex = 1;
+
+  function addShape(type) {
+    const el = document.createElement('div');
+    el.className = `shape ${type}`;
+    el.style.left = (window.innerWidth / 2 - 75 + (Math.random() * 40 - 20)) + 'px';
+    el.style.top = (window.innerHeight / 2 - 50 + (Math.random() * 40 - 20)) + 'px';
+    el.style.width = type === 'circle' ? '100px' : '160px';
+    el.style.height = type === 'text' ? '40px' : '100px';
+    el.style.zIndex = ++zIndex;
+
+    const label = document.createElement('span');
+    label.innerText = type === 'box' ? 'Container' : type === 'circle' ? 'Node' : 'Label';
+    el.appendChild(label);
+
+    const resizer = document.createElement('div');
+    resizer.className = 'resizer';
+    el.appendChild(resizer);
+
+    // Select & Drag
+    el.addEventListener('mousedown', (e) => {
+      if (e.target === resizer || label.isContentEditable) return;
+      selectShape(el);
+      const startX = e.clientX - el.offsetLeft;
+      const startY = e.clientY - el.offsetTop;
+
+      function onMove(ev) {
+        el.style.left = Math.round((ev.clientX - startX) / 10) * 10 + 'px';
+        el.style.top = Math.round((ev.clientY - startY) / 10) * 10 + 'px';
+      }
+      function onUp() {
+        window.removeEventListener('mousemove', onMove);
+        window.removeEventListener('mouseup', onUp);
+      }
+      window.addEventListener('mousemove', onMove);
+      window.addEventListener('mouseup', onUp);
+    });
+
+    // Resize
+    resizer.addEventListener('mousedown', (e) => {
+      e.stopPropagation();
+      const startW = el.offsetWidth;
+      const startH = el.offsetHeight;
+      const startX = e.clientX;
+      const startY = e.clientY;
+
+      function onResize(ev) {
+        const newW = Math.max(30, Math.round((startW + ev.clientX - startX) / 10) * 10);
+        const newH = Math.max(30, Math.round((startH + ev.clientY - startY) / 10) * 10);
+        el.style.width = newW + 'px';
+        el.style.height = newH + 'px';
+      }
+      function onUp() {
+        window.removeEventListener('mousemove', onResize);
+        window.removeEventListener('mouseup', onUp);
+      }
+      window.addEventListener('mousemove', onResize);
+      window.addEventListener('mouseup', onUp);
+    });
+
+    // Edit text
+    el.addEventListener('dblclick', () => {
+      label.contentEditable = true;
+      label.focus();
+      document.execCommand('selectAll', false, null);
+    });
+
+    label.addEventListener('blur', () => {
+      label.contentEditable = false;
+    });
+
+    canvas.appendChild(el);
+    selectShape(el);
+  }
+
+  function selectShape(el) {
+    if (selected) selected.classList.remove('selected');
+    selected = el;
+    if (selected) {
+      selected.classList.add('selected');
+      selected.style.zIndex = ++zIndex;
+    }
+  }
+
+  function deleteSelected() {
+    if (selected) {
+      selected.remove();
+      selected = null;
+    }
+  }
+
+  function clearCanvas() {
+    canvas.innerHTML = '';
+    selected = null;
+  }
+
+  // Deselect on background click
+  window.addEventListener('mousedown', (e) => {
+    if (e.target === document.body || e.target === canvas) selectShape(null);
+  });
+
+  // Delete key shortcut
+  window.addEventListener('keydown', (e) => {
+    if ((e.key === 'Backspace' || e.key === 'Delete') && selected && !selected.querySelector('span').isContentEditable) {
+      deleteSelected();
+    }
+  });
+
+  // Start with two sample shapes
+  addShape('box');
+</script>
+</body>
+</html>

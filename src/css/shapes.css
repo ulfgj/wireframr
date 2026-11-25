@@ -1,0 +1,62 @@
+.shape {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+  font-size: 14px;
+  color: #1e293b;
+  text-align: center;
+  padding: 8px;
+  word-break: break-word;
+}
+
+.shape:active {
+  cursor: grabbing;
+}
+
+.shape.selected {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+.box {
+  background: #ffffff;
+  border: 2px solid #475569;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.circle {
+  background: #ffffff;
+  border: 2px solid #475569;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.text {
+  background: transparent;
+  border: 1px dashed transparent;
+  font-weight: 600;
+}
+
+.text:hover,
+.text.selected {
+  border-color: #94a3b8;
+}
+
+.resizer {
+  width: 10px;
+  height: 10px;
+  background: #3b82f6;
+  border-radius: 2px;
+  position: absolute;
+  right: -5px;
+  bottom: -5px;
+  cursor: nwse-resize;
+  display: none;
+}
+
+.shape.selected .resizer {
+  display: block;
+}

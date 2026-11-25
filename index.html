@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wireframr - Quick Wireframe</title>
+  <link rel="stylesheet" href="src/css/main.css">
+  <link rel="stylesheet" href="src/css/toolbar.css">
+  <link rel="stylesheet" href="src/css/shapes.css">
+</head>
+<body>
+
+  <div id="toolbar">
+    <button id="btn-add-box" type="button">+ Box</button>
+    <button id="btn-add-circle" type="button">+ Circle</button>
+    <button id="btn-add-text" type="button">+ Text</button>
+    <button id="btn-duplicate" type="button">Duplicate</button>
+    <button id="btn-delete" class="danger" type="button">Delete</button>
+    <button id="btn-clear" type="button">Clear All</button>
+  </div>
+
+  <div id="canvas"></div>
+  <div id="hint">Drag to move • Drag corner to resize • Double-click to edit text • Backspace to delete • Cmd/Ctrl+D to duplicate</div>
+
+  <script type="module" src="src/js/main.js"></script>
+</body>
+</html>
