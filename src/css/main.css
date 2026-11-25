@@ -33,6 +33,9 @@ body {
   align-items: center;
   user-select: none;
   pointer-events: none;
+  padding: 6px 16px 18px 16px;
+  margin: -6px -16px -18px -16px;
+  background: radial-gradient(ellipse at 50% 42%, rgba(248, 249, 250, 0.88) 45%, rgba(248, 249, 250, 0) 82%);
 }
 
 #app-logo {
