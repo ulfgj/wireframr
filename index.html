@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="src/css/main.css">
   <link rel="stylesheet" href="src/css/toolbar.css">
   <link rel="stylesheet" href="src/css/shapes.css">
+  <link rel="stylesheet" href="src/css/settings.css">
 </head>
 <body>
 
@@ -21,6 +22,50 @@
     <button id="btn-duplicate" type="button">Duplicate</button>
     <button id="btn-delete" class="danger" type="button">Delete</button>
     <button id="btn-clear" type="button">Clear All</button>
+
+    <div class="toolbar-divider" aria-hidden="true"></div>
+
+    <div id="settings-container">
+      <button id="btn-settings" type="button" title="Settings" aria-label="Settings" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"></circle>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+        </svg>
+      </button>
+
+      <div id="settings-popover" hidden>
+        <div class="settings-header">Canvas Settings</div>
+
+        <div class="setting-item">
+          <label class="setting-checkbox-label" for="setting-reset-numbers">
+            <input type="checkbox" id="setting-reset-numbers" checked>
+            <span>Reset numbers on Clear All</span>
+          </label>
+        </div>
+
+        <div class="setting-item">
+          <div class="setting-label">
+            <span>Grid snap distance</span>
+          </div>
+          <div class="snap-options" role="group" aria-label="Grid snap distance">
+            <button type="button" class="snap-option" data-snap="1">Off</button>
+            <button type="button" class="snap-option active" data-snap="5">5px</button>
+            <button type="button" class="snap-option" data-snap="10">10px</button>
+            <button type="button" class="snap-option" data-snap="20">20px</button>
+          </div>
+        </div>
+
+        <div class="setting-item">
+          <div class="setting-label">
+            <label for="setting-dot-visibility">Grid dot visibility</label>
+            <span id="dot-visibility-value" class="setting-value-badge">25%</span>
+          </div>
+          <div class="setting-slider-row">
+            <input type="range" id="setting-dot-visibility" min="0" max="100" value="25">
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div id="canvas"></div>

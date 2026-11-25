@@ -1,6 +1,7 @@
 import { canvasState } from './canvas.js';
 import { createShape } from './shapes.js';
 import { initKeyboardShortcuts, initMarqueeSelection } from './events.js';
+import { initSettingsUI } from './settings.js';
 
 function initApp() {
   // Bind toolbar buttons
@@ -10,6 +11,9 @@ function initApp() {
   document.getElementById('btn-duplicate')?.addEventListener('click', () => canvasState.duplicateSelected());
   document.getElementById('btn-delete')?.addEventListener('click', () => canvasState.deleteSelected());
   document.getElementById('btn-clear')?.addEventListener('click', () => canvasState.clearCanvas());
+
+  // Init settings popover & controls
+  initSettingsUI();
 
   // Init drag box selection from outside items
   initMarqueeSelection();

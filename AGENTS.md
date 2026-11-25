@@ -6,8 +6,8 @@ Consult `SPEC.md` for product requirements and feature specifications.
 - **Vanilla Web**: Pure HTML5, CSS3, modern ES Modules (native browser `import`/`export`).
 - **Structure**:
   - `index.html`: Entry document.
-  - `src/css/`: Modular stylesheets (`main.css`, `toolbar.css`, `shapes.css`).
-  - `src/js/`: Modular JavaScript (`main.js`, `canvas.js`, `shapes.js`, `events.js`).
+  - `src/css/`: Modular stylesheets (`main.css`, `toolbar.css`, `shapes.css`, `settings.css`).
+  - `src/js/`: Modular JavaScript (`main.js`, `canvas.js`, `shapes.js`, `events.js`, `settings.js`).
 
 ## Commands & Local Dev
 - Start local dev server: `python3 -m http.server 8000` (or `npx serve .`)

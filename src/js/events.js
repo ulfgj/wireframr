@@ -1,7 +1,8 @@
 import { canvasState } from './canvas.js';
+import { snapToGrid } from './settings.js';
 
 /**
- * Attach drag-to-move behavior with 5px grid snapping and multi-selection group dragging
+ * Attach drag-to-move behavior with configurable grid snapping and multi-selection group dragging
  */
 export function attachDragHandlers(element, resizer, labelElement) {
   element.addEventListener('mousedown', (e) => {
@@ -33,9 +34,9 @@ export function attachDragHandlers(element, resizer, labelElement) {
       const deltaX = ev.clientX - startMouseX;
       const deltaY = ev.clientY - startMouseY;
 
-      // Snap deltas to 5px grid
-      const snappedDeltaX = Math.round(deltaX / 5) * 5;
-      const snappedDeltaY = Math.round(deltaY / 5) * 5;
+      // Snap deltas to configured grid distance
+      const snappedDeltaX = snapToGrid(deltaX);
+      const snappedDeltaY = snapToGrid(deltaY);
 
       for (const item of initialPositions) {
         item.el.style.left = `${item.startLeft + snappedDeltaX}px`;
@@ -54,7 +55,7 @@ export function attachDragHandlers(element, resizer, labelElement) {
 }
 
 /**
- * Attach resize behavior with 5px grid snapping and aspect-ratio locking (Shift, Cmd, or Ctrl)
+ * Attach resize behavior with configurable grid snapping and aspect-ratio locking (Shift, Cmd, or Ctrl)
  */
 export function attachResizeHandlers(element, resizer) {
   resizer.addEventListener('mousedown', (e) => {
@@ -87,16 +88,16 @@ export function attachResizeHandlers(element, resizer) {
 
         if (isSquare) {
           // Strictly keep width == height for circles and squares
-          const side = Math.max(30, Math.round((startW * scale) / 5) * 5);
+          const side = Math.max(30, snapToGrid(startW * scale));
           newW = side;
           newH = side;
         } else {
-          newW = Math.max(30, Math.round((startW * scale) / 5) * 5);
-          newH = Math.max(30, Math.round((newW / aspectRatio) / 5) * 5);
+          newW = Math.max(30, snapToGrid(startW * scale));
+          newH = Math.max(30, snapToGrid(newW / aspectRatio));
         }
       } else {
-        newW = Math.max(30, Math.round((startW + dragX) / 5) * 5);
-        newH = Math.max(30, Math.round((startH + dragY) / 5) * 5);
+        newW = Math.max(30, snapToGrid(startW + dragX));
+        newH = Math.max(30, snapToGrid(startH + dragY));
       }
 
       element.style.width = newW + 'px';

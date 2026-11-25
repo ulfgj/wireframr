@@ -2,13 +2,14 @@
   position: fixed;
   top: 16px;
   /* Stays centered on wide viewports, but clamps at min 320px left edge to avoid covering the 285px logo */
-  left: max(325px, calc(50% - (var(--toolbar-width, 420px) / 2)));
+  left: max(325px, calc(50% - (var(--toolbar-width, 468px) / 2)));
   transform: none;
   background: #ffffff;
   padding: 8px 12px;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   display: flex;
+  align-items: center;
   gap: 8px;
   z-index: 1000;
   border: 1px solid #e2e8f0;

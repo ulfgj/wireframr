@@ -1,5 +1,6 @@
 import { canvasState } from './canvas.js';
 import { attachDragHandlers, attachResizeHandlers, attachTextEditHandlers } from './events.js';
+import { snapToGrid } from './settings.js';
 
 const SHAPE_CONFIG = {
   box: {
@@ -63,10 +64,10 @@ export function createShape(type, options = {}) {
     labelText = `${config.defaultLabel} ${shapeCounters[type]}`;
   }
 
-  el.style.left = `${Math.round(left / 5) * 5}px`;
-  el.style.top = `${Math.round(top / 5) * 5}px`;
-  el.style.width = `${Math.round(width / 5) * 5}px`;
-  el.style.height = `${Math.round(height / 5) * 5}px`;
+  el.style.left = `${snapToGrid(left)}px`;
+  el.style.top = `${snapToGrid(top)}px`;
+  el.style.width = `${snapToGrid(width)}px`;
+  el.style.height = `${snapToGrid(height)}px`;
   el.style.zIndex = canvasState.nextZIndex();
 
   const label = document.createElement('span');

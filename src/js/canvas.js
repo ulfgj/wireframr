@@ -1,4 +1,5 @@
 import { createShape, resetShapeCounters } from './shapes.js';
+import { settings } from './settings.js';
 
 /**
  * Canvas state management with multi-selection support
@@ -140,7 +141,9 @@ class CanvasState {
       this.canvasElement.innerHTML = '';
     }
     this.selectedShapes.clear();
-    resetShapeCounters();
+    if (settings.resetCountersOnClear) {
+      resetShapeCounters();
+    }
   }
 }
 

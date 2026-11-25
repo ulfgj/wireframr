@@ -34,6 +34,11 @@ Wireframr is a lightweight, browser-based wireframing tool for rapid low-fidelit
 6. **Keyboard Shortcuts**:
    - `Backspace` or `Delete`: Deletes currently selected shape(s) (unless currently editing text).
    - `Cmd + D` / `Ctrl + D`: Duplicates currently selected shape(s) (unless currently editing text).
-7. **Deployment**:
+   - `Escape`: Closes the settings popover if open.
+7. **Settings Popover (Toolbar Cogwheel)**:
+   - **Reset numbers on Clear All**: Checkbox toggle (enabled by default) controlling whether `Clear All` resets item auto-numbering back to 1.
+   - **Grid snap distance**: Configurable snapping step (`Off` / 1px, `5px` default, `10px`, `20px`) applied to drag-to-move, resizing, and shape placement.
+   - **Grid dot visibility**: Live range slider (0%–100%) that dynamically updates `--dot-color` and `--dot-size` CSS variables in real time on the canvas.
+8. **Deployment**:
    - Automated zero-dependency static deployment via GitHub Pages at `https://ulfgj.github.io/wireframr/`.
    - `.nojekyll` enabled for native ES module and asset serving.
