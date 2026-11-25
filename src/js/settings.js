@@ -5,7 +5,7 @@ export const settings = {
   resetCountersOnClear: true,
   snapDistance: 5,
   dotVisibility: 25, // 0 to 100 scale (25 matches default subtle slate dots)
-  dragOpacity: 75, // 20 to 100 percentage opacity while dragging items
+  dragOpacity: 60, // 20 to 100 percentage opacity while dragging items
 };
 
 /**

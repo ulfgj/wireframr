@@ -1,7 +1,7 @@
 :root {
   --dot-color: rgba(111, 128, 148, 0.31);
   --dot-size: 1px;
-  --drag-opacity: 0.75;
+  --drag-opacity: 0.6;
 }
 
 * {

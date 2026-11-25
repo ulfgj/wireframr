@@ -16,7 +16,7 @@
 }
 
 .shape.dragging {
-  opacity: var(--drag-opacity, 0.75);
+  opacity: var(--drag-opacity, 0.6);
   cursor: grabbing;
 }
 
