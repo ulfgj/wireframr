@@ -21,8 +21,7 @@ Wireframr is a lightweight, browser-based wireframing tool for rapid low-fidelit
    - Initial centered placement with slight random jitter.
    - Snapping to a 5px grid during drag-to-move and corner resizing (against a 10px dot grid).
    - Group dragging: moving one selected shape translates all selected shapes in sync.
-   - Stable layer stacking: selecting a shape preserves its original z-index so shapes behind stay behind until explicitly reordered.
-   - Z-index elevation occurs only upon creating or duplicating new elements.
+   - Layer stacking control: configurable "Bring clicked item to front" setting on direct click (while marquee selection always preserves relative layer order), plus explicit `[` (Send to Back) and `]` (Bring to Front) keyboard shortcuts.
    - Distinct appearance for Box (`.box`), Circle (`.circle`), and Text (`.text`).
    - Incremental automatic naming on creation (e.g. `Box! 1`, `Circle! 1`, `Text Label 1`).
    - Resizer handle displayed at bottom-right corner when selected.
@@ -34,9 +33,11 @@ Wireframr is a lightweight, browser-based wireframing tool for rapid low-fidelit
 6. **Keyboard Shortcuts**:
    - `Backspace` or `Delete`: Deletes currently selected shape(s) (unless currently editing text).
    - `Cmd + D` / `Ctrl + D`: Duplicates currently selected shape(s) (unless currently editing text).
+   - `]` / `[`: Steps selected shape(s) forward (`]`) or backward (`[`) by one layer in the z-index stack (hold `Shift` with `]` or `[` to jump all the way to the front or back).
    - `Escape`: Closes the settings popover if open.
 7. **Settings Popover (Toolbar Cogwheel)**:
    - **Reset numbers on Clear All**: Checkbox toggle (enabled by default) controlling whether `Clear All` resets item auto-numbering back to 1.
+   - **Bring clicked item to front**: Checkbox toggle (enabled by default) controlling whether directly clicking a shape elevates it to the top layer.
    - **Grid snap distance**: Configurable snapping step (`Off` / 1px, `5px` default, `10px`, `20px`) applied to drag-to-move, resizing, and shape placement.
    - **Grid dot visibility**: Live range slider (0%–100%) that dynamically updates `--dot-color` and `--dot-size` CSS variables in real time on the canvas.
    - **Drag item opacity**: Range slider (20%–100%, default 60%) controlling the translucency (`--drag-opacity`) of shapes while they are actively being dragged so underlying shapes and grid dots remain visible.

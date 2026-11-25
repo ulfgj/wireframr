@@ -1,5 +1,5 @@
 import { canvasState } from './canvas.js';
-import { snapToGrid } from './settings.js';
+import { settings, snapToGrid } from './settings.js';
 
 /**
  * Attach drag-to-move behavior with configurable grid snapping and multi-selection group dragging
@@ -11,12 +11,20 @@ export function attachDragHandlers(element, resizer, labelElement) {
     // Handle shift-click for toggle
     if (e.shiftKey) {
       canvasState.toggleShapeSelection(element);
+      if (settings.bringToFrontOnClick && canvasState.isSelected(element)) {
+        element.style.zIndex = canvasState.nextZIndex();
+      }
       return;
     }
 
     // If clicking an unselected shape without shift, select only it
     if (!canvasState.isSelected(element)) {
       canvasState.selectShape(element);
+    }
+
+    // Bring directly clicked shape (or selected group) to front if setting is enabled
+    if (settings.bringToFrontOnClick) {
+      element.style.zIndex = canvasState.nextZIndex();
     }
 
     // Capture initial positions for all currently selected shapes
@@ -251,6 +259,26 @@ export function initKeyboardShortcuts() {
     if ((e.metaKey || e.ctrlKey) && (e.key === 'd' || e.key === 'D')) {
       e.preventDefault();
       canvasState.duplicateSelected();
+      return;
+    }
+
+    // Layer ordering shortcuts: '[' / ']' step 1 layer; 'Shift+[' / 'Shift+]' jump to back/front
+    if (e.key === ']' || e.key === '}' || e.code === 'BracketRight') {
+      e.preventDefault();
+      if (e.shiftKey || e.key === '}') {
+        canvasState.bringSelectedToFront();
+      } else {
+        canvasState.moveSelectedForward();
+      }
+      return;
+    }
+    if (e.key === '[' || e.key === '{' || e.code === 'BracketLeft') {
+      e.preventDefault();
+      if (e.shiftKey || e.key === '{') {
+        canvasState.sendSelectedToBack();
+      } else {
+        canvasState.moveSelectedBackward();
+      }
     }
   });
 }

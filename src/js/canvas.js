@@ -41,6 +41,58 @@ class CanvasState {
     element.classList.add('selected');
   }
 
+  getSortedShapesByZIndex() {
+    if (!this.canvasElement) return [];
+    return Array.from(this.canvasElement.querySelectorAll('.shape')).sort(
+      (a, b) => (parseInt(a.style.zIndex, 10) || 0) - (parseInt(b.style.zIndex, 10) || 0)
+    );
+  }
+
+  applyNormalizedZOrder(orderedShapes) {
+    orderedShapes.forEach((shape, idx) => {
+      shape.style.zIndex = idx + 1;
+    });
+    this.zIndex = Math.max(this.zIndex, orderedShapes.length);
+  }
+
+  moveSelectedForward() {
+    if (this.selectedShapes.size === 0) return;
+    const ordered = this.getSortedShapesByZIndex();
+    for (let i = ordered.length - 2; i >= 0; i--) {
+      if (this.selectedShapes.has(ordered[i]) && !this.selectedShapes.has(ordered[i + 1])) {
+        [ordered[i], ordered[i + 1]] = [ordered[i + 1], ordered[i]];
+      }
+    }
+    this.applyNormalizedZOrder(ordered);
+  }
+
+  moveSelectedBackward() {
+    if (this.selectedShapes.size === 0) return;
+    const ordered = this.getSortedShapesByZIndex();
+    for (let i = 1; i < ordered.length; i++) {
+      if (this.selectedShapes.has(ordered[i]) && !this.selectedShapes.has(ordered[i - 1])) {
+        [ordered[i], ordered[i - 1]] = [ordered[i - 1], ordered[i]];
+      }
+    }
+    this.applyNormalizedZOrder(ordered);
+  }
+
+  bringSelectedToFront() {
+    if (this.selectedShapes.size === 0) return;
+    const ordered = this.getSortedShapesByZIndex();
+    const unselected = ordered.filter((el) => !this.selectedShapes.has(el));
+    const selected = ordered.filter((el) => this.selectedShapes.has(el));
+    this.applyNormalizedZOrder([...unselected, ...selected]);
+  }
+
+  sendSelectedToBack() {
+    if (this.selectedShapes.size === 0) return;
+    const ordered = this.getSortedShapesByZIndex();
+    const selected = ordered.filter((el) => this.selectedShapes.has(el));
+    const unselected = ordered.filter((el) => !this.selectedShapes.has(el));
+    this.applyNormalizedZOrder([...selected, ...unselected]);
+  }
+
   removeShapeFromSelection(element) {
     if (!element) return;
     this.selectedShapes.delete(element);

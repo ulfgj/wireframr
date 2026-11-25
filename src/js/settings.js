@@ -3,6 +3,7 @@
  */
 export const settings = {
   resetCountersOnClear: true,
+  bringToFrontOnClick: true,
   snapDistance: 5,
   dotVisibility: 25, // 0 to 100 scale (25 matches default subtle slate dots)
   dragOpacity: 60, // 20 to 100 percentage opacity while dragging items
@@ -61,6 +62,7 @@ export function initSettingsUI() {
   const toggleBtn = document.getElementById('btn-settings');
   const popover = document.getElementById('settings-popover');
   const resetCheckbox = document.getElementById('setting-reset-numbers');
+  const bringToFrontCheckbox = document.getElementById('setting-bring-to-front');
   const snapButtons = document.querySelectorAll('.snap-option');
   const dotSlider = document.getElementById('setting-dot-visibility');
   const dotValueLabel = document.getElementById('dot-visibility-value');
@@ -111,6 +113,14 @@ export function initSettingsUI() {
     resetCheckbox.checked = settings.resetCountersOnClear;
     resetCheckbox.addEventListener('change', (e) => {
       settings.resetCountersOnClear = e.target.checked;
+    });
+  }
+
+  // 1b. Bring clicked item to front toggle
+  if (bringToFrontCheckbox) {
+    bringToFrontCheckbox.checked = settings.bringToFrontOnClick;
+    bringToFrontCheckbox.addEventListener('change', (e) => {
+      settings.bringToFrontOnClick = e.target.checked;
     });
   }
 
