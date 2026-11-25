@@ -10,8 +10,8 @@ Wireframr is a lightweight, browser-based wireframing tool for rapid low-fidelit
    - Click background without dragging to clear selection.
    - Shift-click or Shift-drag to augment selection.
 2. **Branding & Header**:
-   - Outlined typography logo with elongated flourish and circular node displayed in the top-left corner.
-   - Fixed header element with `pointer-events: none` to prevent blocking drawing and dragging.
+   - Outlined typography logo (`#94a3b8` slate contour) with elongated flourish and circular node displayed in the top-left corner (`51px` height).
+   - Fixed header element with `pointer-events: none` and a soft radial-gradient backdrop fading behind and below the logo to soften background dots without blocking drawing or dragging.
 3. **Toolbar**:
    - Create shapes: Box (rectangle container), Circle (node), Text (label).
    - Duplicate selected shapes (clones all selected preserving relative layout).
