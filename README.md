@@ -2,6 +2,8 @@
 
 A lightweight, distraction-free browser tool for quick low-fidelity wireframing and flow mapping.
 
+🚀 **Live Web App**: [https://ulfgj.github.io/wireframr/](https://ulfgj.github.io/wireframr/)
+
 ## What You Can Do
 - **Add Shapes**: Insert boxes (containers), circles (nodes), and text labels.
 - **Marquee Selection**: Click and drag from empty canvas space to draw a selection rectangle selecting multiple shapes at once (hold `Shift` to add to selection).
