@@ -5,7 +5,7 @@ Wireframr is a lightweight, browser-based wireframing tool for rapid low-fidelit
 
 ## Core Features & Requirements
 1. **Interactive Canvas**:
-   - Radial dot grid background (20px spacing).
+   - Radial dot grid background (10px spacing).
    - Click background to deselect shapes.
 2. **Toolbar**:
    - Create shapes: Box (rectangle container), Circle (node), Text (label).
@@ -14,7 +14,7 @@ Wireframr is a lightweight, browser-based wireframing tool for rapid low-fidelit
    - Clear all canvas elements.
 3. **Shapes & Manipulation**:
    - Initial centered placement with slight random jitter.
-   - Snapping to a 10px grid during drag-to-move and corner resizing.
+   - Snapping to a 5px grid during drag-to-move and corner resizing (against a 10px dot grid).
    - Z-index elevation when selecting, creating, or duplicating elements.
    - Distinct appearance for Box (`.box`), Circle (`.circle`), and Text (`.text`).
    - Resizer handle displayed at bottom-right corner when selected.

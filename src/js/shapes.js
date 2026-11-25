@@ -43,10 +43,10 @@ export function createShape(type, options = {}) {
   const height = options.height !== undefined ? options.height : config.defaultHeight;
   const labelText = options.label !== undefined ? options.label : config.defaultLabel;
 
-  el.style.left = `${Math.round(left / 10) * 10}px`;
-  el.style.top = `${Math.round(top / 10) * 10}px`;
-  el.style.width = `${Math.round(width / 10) * 10}px`;
-  el.style.height = `${Math.round(height / 10) * 10}px`;
+  el.style.left = `${Math.round(left / 5) * 5}px`;
+  el.style.top = `${Math.round(top / 5) * 5}px`;
+  el.style.width = `${Math.round(width / 5) * 5}px`;
+  el.style.height = `${Math.round(height / 5) * 5}px`;
   el.style.zIndex = canvasState.nextZIndex();
 
   const label = document.createElement('span');

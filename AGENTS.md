@@ -16,4 +16,4 @@ Consult `SPEC.md` for product requirements and feature specifications.
 ## Coding Standards & Safety
 - Keep modules focused with clean single responsibilities.
 - Avoid external runtime dependencies unless explicitly planned.
-- Retain 10px grid snapping and native event handling patterns.
+- Retain 5px grid snapping and native event handling patterns.

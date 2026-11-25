@@ -1,7 +1,7 @@
 import { canvasState } from './canvas.js';
 
 /**
- * Attach drag-to-move behavior with 10px grid snapping
+ * Attach drag-to-move behavior with 5px grid snapping
  */
 export function attachDragHandlers(element, resizer, labelElement) {
   element.addEventListener('mousedown', (e) => {
@@ -12,8 +12,8 @@ export function attachDragHandlers(element, resizer, labelElement) {
     const startY = e.clientY - element.offsetTop;
 
     function onMove(ev) {
-      element.style.left = Math.round((ev.clientX - startX) / 10) * 10 + 'px';
-      element.style.top = Math.round((ev.clientY - startY) / 10) * 10 + 'px';
+      element.style.left = Math.round((ev.clientX - startX) / 5) * 5 + 'px';
+      element.style.top = Math.round((ev.clientY - startY) / 5) * 5 + 'px';
     }
 
     function onUp() {
@@ -27,7 +27,7 @@ export function attachDragHandlers(element, resizer, labelElement) {
 }
 
 /**
- * Attach resize behavior with 10px grid snapping
+ * Attach resize behavior with 5px grid snapping
  */
 export function attachResizeHandlers(element, resizer) {
   resizer.addEventListener('mousedown', (e) => {
@@ -38,8 +38,8 @@ export function attachResizeHandlers(element, resizer) {
     const startY = e.clientY;
 
     function onResize(ev) {
-      const newW = Math.max(30, Math.round((startW + ev.clientX - startX) / 10) * 10);
-      const newH = Math.max(30, Math.round((startH + ev.clientY - startY) / 10) * 10);
+      const newW = Math.max(30, Math.round((startW + ev.clientX - startX) / 5) * 5);
+      const newH = Math.max(30, Math.round((startH + ev.clientY - startY) / 5) * 5);
       element.style.width = newW + 'px';
       element.style.height = newH + 'px';
     }
