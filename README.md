@@ -12,7 +12,7 @@ A lightweight, distraction-free browser tool for quick low-fidelity wireframing 
 - **Edit Text**: Double-click any element to edit its text inline.
 - **Duplicate**: Clone single or multiple selected shapes with a diagonal step using **Duplicate** or `Cmd + D` / `Ctrl + D`.
 - **Delete & Clear**: Remove selected shapes with `Backspace` / `Delete` or clear the entire canvas.
-- **Customize Settings**: Click the cogwheel on the right side of the toolbar to toggle counter reset on Clear All, adjust grid snap distance (`Off`, `5px`, `10px`, `20px`), or boost canvas dot grid visibility live.
+- **Customize Settings**: Click the cogwheel on the right side of the toolbar to toggle counter reset on Clear All, adjust grid snap distance (`Off`, `5px`, `10px`, `20px`), boost canvas dot grid visibility live, or set dragged item opacity.
 
 ## Tech Stack
 - Pure HTML5, CSS3, modern Vanilla ES Modules.

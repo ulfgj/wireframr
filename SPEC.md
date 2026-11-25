@@ -39,6 +39,7 @@ Wireframr is a lightweight, browser-based wireframing tool for rapid low-fidelit
    - **Reset numbers on Clear All**: Checkbox toggle (enabled by default) controlling whether `Clear All` resets item auto-numbering back to 1.
    - **Grid snap distance**: Configurable snapping step (`Off` / 1px, `5px` default, `10px`, `20px`) applied to drag-to-move, resizing, and shape placement.
    - **Grid dot visibility**: Live range slider (0%–100%) that dynamically updates `--dot-color` and `--dot-size` CSS variables in real time on the canvas.
+   - **Drag item opacity**: Range slider (20%–100%, default 75%) controlling the translucency (`--drag-opacity`) of shapes while they are actively being dragged so underlying shapes and grid dots remain visible.
 8. **Deployment**:
    - Automated zero-dependency static deployment via GitHub Pages at `https://ulfgj.github.io/wireframr/`.
    - `.nojekyll` enabled for native ES module and asset serving.

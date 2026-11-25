@@ -15,6 +15,11 @@
   cursor: grabbing;
 }
 
+.shape.dragging {
+  opacity: var(--drag-opacity, 0.75);
+  cursor: grabbing;
+}
+
 .shape.selected {
   outline: 2px solid #3b82f6;
   outline-offset: 2px;

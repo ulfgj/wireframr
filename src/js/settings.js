@@ -5,6 +5,7 @@ export const settings = {
   resetCountersOnClear: true,
   snapDistance: 5,
   dotVisibility: 25, // 0 to 100 scale (25 matches default subtle slate dots)
+  dragOpacity: 75, // 20 to 100 percentage opacity while dragging items
 };
 
 /**
@@ -43,6 +44,16 @@ export function applyDotVisibility(visibility) {
 }
 
 /**
+ * Live-update CSS custom property for dragged item opacity
+ * @param {number} opacityPercent - 20 to 100
+ */
+export function applyDragOpacity(opacityPercent) {
+  const clamped = Math.max(20, Math.min(100, Number(opacityPercent)));
+  settings.dragOpacity = clamped;
+  document.documentElement.style.setProperty('--drag-opacity', (clamped / 100).toFixed(2));
+}
+
+/**
  * Initialize settings cogwheel button, popover behavior, and control bindings
  */
 export function initSettingsUI() {
@@ -53,11 +64,14 @@ export function initSettingsUI() {
   const snapButtons = document.querySelectorAll('.snap-option');
   const dotSlider = document.getElementById('setting-dot-visibility');
   const dotValueLabel = document.getElementById('dot-visibility-value');
+  const dragOpacitySlider = document.getElementById('setting-drag-opacity');
+  const dragOpacityLabel = document.getElementById('drag-opacity-value');
 
   if (!toggleBtn || !popover) return;
 
-  // Apply initial dot visibility
+  // Apply initial dot visibility and drag opacity
   applyDotVisibility(settings.dotVisibility);
+  applyDragOpacity(settings.dragOpacity);
 
   // Toggle settings popover
   toggleBtn.addEventListener('click', (e) => {
@@ -120,6 +134,18 @@ export function initSettingsUI() {
       applyDotVisibility(val);
       if (dotValueLabel) {
         dotValueLabel.textContent = `${val}%`;
+      }
+    });
+  }
+
+  // 4. Drag item opacity slider
+  if (dragOpacitySlider) {
+    dragOpacitySlider.value = String(settings.dragOpacity);
+    dragOpacitySlider.addEventListener('input', (e) => {
+      const val = parseInt(e.target.value, 10);
+      applyDragOpacity(val);
+      if (dragOpacityLabel) {
+        dragOpacityLabel.textContent = `${val}%`;
       }
     });
   }

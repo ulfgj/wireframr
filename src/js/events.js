@@ -30,9 +30,18 @@ export function attachDragHandlers(element, resizer, labelElement) {
       startTop: el.offsetTop,
     }));
 
+    let isDragging = false;
+
     function onMove(ev) {
       const deltaX = ev.clientX - startMouseX;
       const deltaY = ev.clientY - startMouseY;
+
+      if (!isDragging && (Math.abs(deltaX) > 1 || Math.abs(deltaY) > 1)) {
+        isDragging = true;
+        for (const item of initialPositions) {
+          item.el.classList.add('dragging');
+        }
+      }
 
       // Snap deltas to configured grid distance
       const snappedDeltaX = snapToGrid(deltaX);
@@ -45,6 +54,11 @@ export function attachDragHandlers(element, resizer, labelElement) {
     }
 
     function onUp() {
+      if (isDragging) {
+        for (const item of initialPositions) {
+          item.el.classList.remove('dragging');
+        }
+      }
       window.removeEventListener('mousemove', onMove);
       window.removeEventListener('mouseup', onUp);
     }
