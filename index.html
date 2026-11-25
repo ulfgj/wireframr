@@ -83,10 +83,29 @@
         </div>
       </div>
     </div>
+
+    <div id="help-container">
+      <button id="btn-help" type="button" title="Shortcuts &amp; Hints (?)" aria-label="Shortcuts &amp; Hints" aria-expanded="false">?</button>
+
+      <div id="help-popover" hidden>
+        <div class="settings-header">Shortcuts &amp; Hints</div>
+        <ul class="help-list">
+          <li><span>Move shape(s)</span><kbd>Drag</kbd></li>
+          <li><span>Multi-select box</span><kbd>Drag Canvas</kbd></li>
+          <li><span>Add to selection</span><kbd>Shift + Click</kbd></li>
+          <li><span>Resize shape</span><kbd>Drag Corner</kbd></li>
+          <li><span>Lock aspect ratio</span><kbd>Shift / Cmd</kbd></li>
+          <li><span>Edit text</span><kbd>Double-Click</kbd></li>
+          <li><span>Step layer back / fwd</span><kbd>[</kbd> <kbd>]</kbd></li>
+          <li><span>Send to back / front</span><kbd>Shift + [ / ]</kbd></li>
+          <li><span>Duplicate selected</span><kbd>Cmd/Ctrl + D</kbd></li>
+          <li><span>Delete selected</span><kbd>Backspace</kbd></li>
+        </ul>
+      </div>
+    </div>
   </div>
 
   <div id="canvas"></div>
-  <div id="hint">Drag background to marquee select • Drag to move • Drag corner to resize (Hold Shift/Cmd to lock aspect ratio) • [ / ] to step layer back/forward • Double-click to edit text • Backspace to delete • Cmd/Ctrl+D to duplicate</div>
 
   <script type="module" src="src/js/main.js"></script>
 </body>

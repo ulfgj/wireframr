@@ -61,6 +61,9 @@ export function initSettingsUI() {
   const container = document.getElementById('settings-container');
   const toggleBtn = document.getElementById('btn-settings');
   const popover = document.getElementById('settings-popover');
+  const helpContainer = document.getElementById('help-container');
+  const helpBtn = document.getElementById('btn-help');
+  const helpPopover = document.getElementById('help-popover');
   const resetCheckbox = document.getElementById('setting-reset-numbers');
   const bringToFrontCheckbox = document.getElementById('setting-bring-to-front');
   const snapButtons = document.querySelectorAll('.snap-option');
@@ -75,36 +78,75 @@ export function initSettingsUI() {
   applyDotVisibility(settings.dotVisibility);
   applyDragOpacity(settings.dragOpacity);
 
-  // Toggle settings popover
+  function closePopover(pop, btn) {
+    if (!pop || !btn) return;
+    pop.setAttribute('hidden', '');
+    btn.classList.remove('active');
+    btn.setAttribute('aria-expanded', 'false');
+  }
+
+  function openPopover(pop, btn) {
+    if (!pop || !btn) return;
+    pop.removeAttribute('hidden');
+    btn.classList.add('active');
+    btn.setAttribute('aria-expanded', 'true');
+  }
+
+  // Toggle settings popover (closes help popover if open)
   toggleBtn.addEventListener('click', (e) => {
     e.stopPropagation();
     const isHidden = popover.hasAttribute('hidden');
     if (isHidden) {
-      popover.removeAttribute('hidden');
-      toggleBtn.classList.add('active');
-      toggleBtn.setAttribute('aria-expanded', 'true');
+      closePopover(helpPopover, helpBtn);
+      openPopover(popover, toggleBtn);
     } else {
-      popover.setAttribute('hidden', '');
-      toggleBtn.classList.remove('active');
-      toggleBtn.setAttribute('aria-expanded', 'false');
+      closePopover(popover, toggleBtn);
     }
   });
 
-  // Close popover when clicking outside
+  // Toggle help popover (closes settings popover if open)
+  if (helpBtn && helpPopover) {
+    helpBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isHidden = helpPopover.hasAttribute('hidden');
+      if (isHidden) {
+        closePopover(popover, toggleBtn);
+        openPopover(helpPopover, helpBtn);
+      } else {
+        closePopover(helpPopover, helpBtn);
+      }
+    });
+  }
+
+  // Close popovers when clicking outside
   window.addEventListener('mousedown', (e) => {
     if (!popover.hasAttribute('hidden') && container && !container.contains(e.target)) {
-      popover.setAttribute('hidden', '');
-      toggleBtn.classList.remove('active');
-      toggleBtn.setAttribute('aria-expanded', 'false');
+      closePopover(popover, toggleBtn);
+    }
+    if (helpPopover && !helpPopover.hasAttribute('hidden') && helpContainer && !helpContainer.contains(e.target)) {
+      closePopover(helpPopover, helpBtn);
     }
   });
 
-  // Close popover on Escape key
+  // Close popovers on Escape key, or toggle help on '?'
   window.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && !popover.hasAttribute('hidden')) {
-      popover.setAttribute('hidden', '');
-      toggleBtn.classList.remove('active');
-      toggleBtn.setAttribute('aria-expanded', 'false');
+    if (e.key === 'Escape') {
+      closePopover(popover, toggleBtn);
+      closePopover(helpPopover, helpBtn);
+      return;
+    }
+    if (e.key === '?' && helpPopover && helpBtn) {
+      const isEditing = document.activeElement?.isContentEditable;
+      if (!isEditing) {
+        e.preventDefault();
+        const isHidden = helpPopover.hasAttribute('hidden');
+        if (isHidden) {
+          closePopover(popover, toggleBtn);
+          openPopover(helpPopover, helpBtn);
+        } else {
+          closePopover(helpPopover, helpBtn);
+        }
+      }
     }
   });
 

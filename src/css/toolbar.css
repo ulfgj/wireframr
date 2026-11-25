@@ -1,8 +1,8 @@
 #toolbar {
   position: fixed;
   top: 16px;
-  /* Stays centered on wide viewports, but clamps at min 320px left edge to avoid covering the 285px logo */
-  left: max(325px, calc(50% - (var(--toolbar-width, 468px) / 2)));
+  /* Stays centered on wide viewports, but clamps at min 325px left edge to avoid covering the 285px logo */
+  left: max(325px, calc(50% - (var(--toolbar-width, 506px) / 2)));
   transform: none;
   background: #ffffff;
   padding: 8px 12px;

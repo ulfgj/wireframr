@@ -5,13 +5,15 @@
   margin: 2px 2px;
 }
 
-#settings-container {
+#settings-container,
+#help-container {
   position: relative;
   display: flex;
   align-items: center;
 }
 
-#toolbar #btn-settings {
+#toolbar #btn-settings,
+#toolbar #btn-help {
   width: 30px;
   height: 30px;
   padding: 0;
@@ -20,8 +22,15 @@
   justify-content: center;
 }
 
+#toolbar #btn-help {
+  font-size: 14px;
+  font-weight: 700;
+}
+
 #toolbar #btn-settings:hover,
-#toolbar #btn-settings.active {
+#toolbar #btn-settings.active,
+#toolbar #btn-help:hover,
+#toolbar #btn-help.active {
   background: #f1f5f9;
   border-color: #94a3b8;
   color: #0f172a;
@@ -37,7 +46,8 @@
   transform: rotate(45deg);
 }
 
-#settings-popover {
+#settings-popover,
+#help-popover {
   position: absolute;
   top: calc(100% + 12px);
   right: 0;
@@ -52,9 +62,22 @@
   font-size: 13px;
   white-space: normal;
   z-index: 1001;
+  animation: popoverSlideDown 0.14s ease-out;
 }
 
-#settings-popover[hidden] {
+@keyframes popoverSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+#settings-popover[hidden],
+#help-popover[hidden] {
   display: none;
 }
 
@@ -156,4 +179,35 @@
   border-radius: 4px;
   min-width: 36px;
   text-align: right;
+}
+
+.help-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.help-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #334155;
+  gap: 8px;
+}
+
+.help-list kbd {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 11px;
+  font-weight: 600;
+  color: #475569;
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  padding: 1px 6px;
+  white-space: nowrap;
 }
