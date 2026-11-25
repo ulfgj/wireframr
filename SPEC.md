@@ -9,12 +9,15 @@ Wireframr is a lightweight, browser-based wireframing tool for rapid low-fidelit
    - Drag background to draw a rubberband/marquee box selecting multiple items.
    - Click background without dragging to clear selection.
    - Shift-click or Shift-drag to augment selection.
-2. **Toolbar**:
+2. **Branding & Header**:
+   - Outlined typography logo with elongated flourish and circular node displayed in the top-left corner.
+   - Fixed header element with `pointer-events: none` to prevent blocking drawing and dragging.
+3. **Toolbar**:
    - Create shapes: Box (rectangle container), Circle (node), Text (label).
    - Duplicate selected shapes (clones all selected preserving relative layout).
    - Delete selected shape(s).
    - Clear all canvas elements.
-3. **Shapes & Manipulation**:
+4. **Shapes & Manipulation**:
    - Initial centered placement with slight random jitter.
    - Snapping to a 5px grid during drag-to-move and corner resizing (against a 10px dot grid).
    - Group dragging: moving one selected shape translates all selected shapes in sync.
@@ -23,9 +26,12 @@ Wireframr is a lightweight, browser-based wireframing tool for rapid low-fidelit
    - Distinct appearance for Box (`.box`), Circle (`.circle`), and Text (`.text`).
    - Resizer handle displayed at bottom-right corner when selected.
    - Duplication preserves shape dimensions, label text, and type with an offset (+20px, +20px).
-4. **Text Editing**:
+5. **Text Editing**:
    - Double-click to inline edit text content.
    - Select all text on double click; exit edit mode on blur.
-5. **Keyboard Shortcuts**:
-   - `Backspace` or `Delete`: Deletes currently selected shape (unless currently editing text).
-   - `Cmd + D` / `Ctrl + D`: Duplicates currently selected shape (unless currently editing text).
+6. **Keyboard Shortcuts**:
+   - `Backspace` or `Delete`: Deletes currently selected shape(s) (unless currently editing text).
+   - `Cmd + D` / `Ctrl + D`: Duplicates currently selected shape(s) (unless currently editing text).
+7. **Deployment**:
+   - Automated zero-dependency static deployment via GitHub Pages at `https://ulfgj.github.io/wireframr/`.
+   - `.nojekyll` enabled for native ES module and asset serving.
