@@ -142,6 +142,10 @@ class CanvasState {
       } else if (el.classList.contains('text')) {
         type = 'text';
       } else if (el.classList.contains('image')) {
+        // Do not duplicate empty image placeholders until an image is loaded
+        if (!el.classList.contains('has-image')) {
+          continue;
+        }
         type = 'image';
       }
 
@@ -169,8 +173,10 @@ class CanvasState {
       newClones.push(newShape);
     }
 
-    // Select all the newly cloned shapes together
-    this.selectShapes(newClones);
+    // Select all the newly cloned shapes together if any were created
+    if (newClones.length > 0) {
+      this.selectShapes(newClones);
+    }
     return newClones;
   }
 

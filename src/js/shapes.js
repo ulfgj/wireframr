@@ -207,7 +207,8 @@ export function createShape(type, options = {}) {
         <circle cx="8.5" cy="8.5" r="1.5"></circle>
         <polyline points="21 15 16 10 5 21"></polyline>
       </svg>
-      <span>${labelText}<br><small>Double-click or drop</small></span>
+      <span class="image-label">${labelText}</span>
+      <small>Double-click or drop</small>
     `;
     el.insertBefore(placeholder, resizer);
 
