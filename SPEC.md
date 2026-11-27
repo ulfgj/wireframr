@@ -13,7 +13,7 @@ Wireframr is a lightweight, browser-based wireframing tool for rapid low-fidelit
    - Outlined typography logo (`#94a3b8` slate contour) with elongated flourish and circular node displayed in the top-left corner (`51px` height).
    - Fixed header element with `pointer-events: none` and a soft radial-gradient backdrop fading behind and below the logo to soften background dots without blocking drawing or dragging.
 3. **Toolbar**:
-   - Create shapes: Box (rectangle container), Circle (node), Text (label).
+   - Create shapes: Box (rectangle container), Circle (node), Text (label), Image (image placeholder/container).
    - Duplicate selected shapes (clones all selected preserving relative layout).
    - Delete selected shape(s).
    - Clear all canvas elements.
@@ -25,7 +25,8 @@ Wireframr is a lightweight, browser-based wireframing tool for rapid low-fidelit
    - Group dragging: moving one selected shape translates all selected shapes in sync.
    - Translucent drag feedback: shapes apply `.dragging` (`opacity: var(--drag-opacity)`, default 60%) once mouse movement starts so underlying shapes and grid dots remain visible while positioning.
    - Layer stacking control: configurable "Bring clicked item to front" setting on direct click (while marquee selection always preserves relative layer order), plus explicit `[` / `]` single-step z-index layer movement and `Shift + [` / `Shift + ]` to send all the way to back/front.
-   - Distinct appearance for Box (`.box`), Circle (`.circle`), and Text (`.text`).
+   - Distinct appearance for Box (`.box`), Circle (`.circle`), Text (`.text`), and Image (`.image`).
+   - Image blocks support loading any image file via double-click file picker or drag-and-drop, rendering with `object-fit: cover` while preserving drag, resize, and duplication.
    - Collision-free incremental auto-numbering on creation and duplication using a unified high-water mark + canvas prefix scan (e.g. duplicating `Box! 5` when `Box! 8` already exists names the new item `Box! 9`, and clicking `+ Box` next creates `Box! 10`).
    - Resizer handle displayed at bottom-right corner when selected.
    - Proportional scaling: holding `Shift`, `Cmd`, or `Ctrl` while dragging corner locks aspect ratio with uniform scale projection.

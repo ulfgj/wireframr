@@ -8,6 +8,7 @@ function initApp() {
   document.getElementById('btn-add-box')?.addEventListener('click', () => createShape('box'));
   document.getElementById('btn-add-circle')?.addEventListener('click', () => createShape('circle'));
   document.getElementById('btn-add-text')?.addEventListener('click', () => createShape('text'));
+  document.getElementById('btn-add-image')?.addEventListener('click', () => createShape('image'));
   document.getElementById('btn-duplicate')?.addEventListener('click', () => canvasState.duplicateSelected());
   document.getElementById('btn-delete')?.addEventListener('click', () => canvasState.deleteSelected());
   document.getElementById('btn-clear')?.addEventListener('click', () => canvasState.clearCanvas());

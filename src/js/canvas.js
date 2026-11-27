@@ -141,11 +141,15 @@ class CanvasState {
         type = 'circle';
       } else if (el.classList.contains('text')) {
         type = 'text';
+      } else if (el.classList.contains('image')) {
+        type = 'image';
       }
 
       const span = el.querySelector('span');
       const currentLabel = span ? (span.textContent || '').replace(/\s+/g, ' ').trim() : '';
       const newLabel = getNextShapeLabel(type, currentLabel);
+      const img = el.querySelector('img');
+      const imageSrc = img ? img.src : undefined;
 
       const currentLeft = el.offsetLeft;
       const currentTop = el.offsetTop;
@@ -159,6 +163,7 @@ class CanvasState {
         width,
         height,
         label: newLabel,
+        imageSrc,
       });
 
       newClones.push(newShape);

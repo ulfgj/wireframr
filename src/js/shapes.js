@@ -18,6 +18,11 @@ const SHAPE_CONFIG = {
     defaultHeight: 40,
     defaultLabel: 'Text Label',
   },
+  image: {
+    defaultWidth: 160,
+    defaultHeight: 120,
+    defaultLabel: 'Image',
+  },
 };
 
 // Per-type incremental counters
@@ -25,12 +30,14 @@ export const shapeCounters = {
   box: 0,
   circle: 0,
   text: 0,
+  image: 0,
 };
 
 export function resetShapeCounters() {
   shapeCounters.box = 0;
   shapeCounters.circle = 0;
   shapeCounters.text = 0;
+  shapeCounters.image = 0;
 }
 
 /**
@@ -80,14 +87,86 @@ export function getNextShapeLabel(type, sourceLabel) {
 }
 
 /**
+ * Load an image source into an image shape element
+ * @param {HTMLElement} el
+ * @param {string} src
+ */
+function setImageSource(el, src) {
+  let img = el.querySelector('img');
+  if (!img) {
+    img = document.createElement('img');
+    img.alt = 'Wireframe image';
+    el.insertBefore(img, el.querySelector('.resizer'));
+  }
+  img.src = src;
+  el.classList.add('has-image');
+  const placeholder = el.querySelector('.image-placeholder');
+  if (placeholder) {
+    placeholder.style.display = 'none';
+  }
+}
+
+/**
+ * Attach double-click file picker and drag-and-drop image loading to an image shape
+ * @param {HTMLElement} el
+ */
+function attachImageHandlers(el) {
+  const fileInput = document.createElement('input');
+  fileInput.type = 'file';
+  fileInput.accept = 'image/*';
+  fileInput.style.display = 'none';
+  el.appendChild(fileInput);
+
+  const loadFile = (file) => {
+    if (!file || !file.type.startsWith('image/')) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      if (typeof ev.target?.result === 'string') {
+        setImageSource(el, ev.target.result);
+      }
+    };
+    reader.readAsDataURL(file);
+  };
+
+  fileInput.addEventListener('change', (e) => {
+    const file = e.target.files?.[0];
+    loadFile(file);
+    fileInput.value = '';
+  });
+
+  el.addEventListener('dblclick', (e) => {
+    e.stopPropagation();
+    fileInput.click();
+  });
+
+  el.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    el.classList.add('drag-over');
+  });
+
+  el.addEventListener('dragleave', () => {
+    el.classList.remove('drag-over');
+  });
+
+  el.addEventListener('drop', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    el.classList.remove('drag-over');
+    const file = e.dataTransfer?.files?.[0];
+    loadFile(file);
+  });
+}
+
+/**
  * Factory function to create and render a shape
- * @param {string} type - 'box' | 'circle' | 'text'
- * @param {Object} [options] - Optional custom geometry and label
+ * @param {string} type - 'box' | 'circle' | 'text' | 'image'
+ * @param {Object} [options] - Optional custom geometry, label, and imageSrc
  * @param {number} [options.left]
  * @param {number} [options.top]
  * @param {number} [options.width]
  * @param {number} [options.height]
  * @param {string} [options.label]
+ * @param {string} [options.imageSrc]
  */
 export function createShape(type, options = {}) {
   const config = SHAPE_CONFIG[type] || SHAPE_CONFIG.box;
@@ -115,18 +194,40 @@ export function createShape(type, options = {}) {
   el.style.height = `${snapToGrid(height)}px`;
   el.style.zIndex = canvasState.nextZIndex();
 
-  const label = document.createElement('span');
-  label.innerText = labelText;
-  el.appendChild(label);
-
   const resizer = document.createElement('div');
   resizer.className = 'resizer';
   el.appendChild(resizer);
 
-  // Attach interactions
-  attachDragHandlers(el, resizer, label);
-  attachResizeHandlers(el, resizer);
-  attachTextEditHandlers(el, label);
+  if (type === 'image') {
+    const placeholder = document.createElement('div');
+    placeholder.className = 'image-placeholder';
+    placeholder.innerHTML = `
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+        <circle cx="8.5" cy="8.5" r="1.5"></circle>
+        <polyline points="21 15 16 10 5 21"></polyline>
+      </svg>
+      <span>${labelText}<br><small>Double-click or drop</small></span>
+    `;
+    el.insertBefore(placeholder, resizer);
+
+    if (options.imageSrc) {
+      setImageSource(el, options.imageSrc);
+    }
+
+    attachDragHandlers(el, resizer, { isContentEditable: false });
+    attachResizeHandlers(el, resizer);
+    attachImageHandlers(el);
+  } else {
+    const label = document.createElement('span');
+    label.innerText = labelText;
+    el.insertBefore(label, resizer);
+
+    // Attach interactions
+    attachDragHandlers(el, resizer, label);
+    attachResizeHandlers(el, resizer);
+    attachTextEditHandlers(el, label);
+  }
 
   canvasState.canvasElement.appendChild(el);
   canvasState.selectShape(el);

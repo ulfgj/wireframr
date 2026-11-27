@@ -5,7 +5,8 @@ A lightweight, distraction-free browser tool for quick low-fidelity wireframing 
 🚀 **Live Web App**: [https://ulfgj.github.io/wireframr/](https://ulfgj.github.io/wireframr/)
 
 ## What You Can Do
-- **Add & Auto-Number Shapes**: Insert boxes, circles, and text labels with automatic collision-free incremental numbering (`Box! 1`, `Box! 2`...) across both creation and duplication.
+- **Add & Auto-Number Shapes**: Insert boxes, circles, text labels, and image blocks with automatic collision-free incremental numbering (`Box! 1`, `Box! 2`...) across both creation and duplication.
+- **Image Blocks**: Double-click an image block (or drag-and-drop an image file onto it) to load any image into your wireframe.
 - **Marquee Multi-Selection**: Click and drag from empty canvas space to draw a selection rectangle selecting multiple shapes at once (hold `Shift` to add to selection).
 - **Group Move & Translucent Drag**: Drag elements with configurable grid snapping (`5px` default) against a 10px dot grid background; dragged items turn translucent (60% default opacity) so you can align against underlying items.
 - **Layer Ordering**: Automatically bring clicked items to the front (toggleable in Settings) or press `[` and `]` to step selected items backward/forward one z-index layer at a time (`Shift + [` / `Shift + ]` jumps to the very back/front).
