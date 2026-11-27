@@ -104,6 +104,7 @@ function setImageSource(el, src) {
   if (placeholder) {
     placeholder.style.display = 'none';
   }
+  canvasState.updateToolbarState();
 }
 
 /**

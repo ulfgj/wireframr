@@ -33,12 +33,14 @@ class CanvasState {
     if (element) {
       this.addShapeToSelection(element);
     }
+    this.updateToolbarState();
   }
 
   addShapeToSelection(element) {
     if (!element) return;
     this.selectedShapes.add(element);
     element.classList.add('selected');
+    this.updateToolbarState();
   }
 
   getSortedShapesByZIndex() {
@@ -120,6 +122,7 @@ class CanvasState {
       shape.classList.add('selected');
     }
     this.selectedShapes = newSet;
+    this.updateToolbarState();
   }
 
   clearSelection() {
@@ -127,6 +130,27 @@ class CanvasState {
       shape.classList.remove('selected');
     }
     this.selectedShapes.clear();
+    this.updateToolbarState();
+  }
+
+  updateToolbarState() {
+    const btnDuplicate = document.getElementById('btn-duplicate');
+    if (!btnDuplicate) return;
+
+    if (this.selectedShapes.size === 0) {
+      btnDuplicate.disabled = true;
+      btnDuplicate.title = 'Select an item to duplicate';
+      return;
+    }
+
+    const hasDuplicable = Array.from(this.selectedShapes).some(
+      (el) => !el.classList.contains('image') || el.classList.contains('has-image')
+    );
+
+    btnDuplicate.disabled = !hasDuplicable;
+    btnDuplicate.title = hasDuplicable
+      ? 'Duplicate (Cmd/Ctrl+D)'
+      : 'Add an image first to duplicate';
   }
 
   duplicateSelected() {
@@ -185,6 +209,7 @@ class CanvasState {
       shape.remove();
     }
     this.selectedShapes.clear();
+    this.updateToolbarState();
   }
 
   clearCanvas() {
@@ -195,6 +220,7 @@ class CanvasState {
     if (settings.resetCountersOnClear) {
       resetShapeCounters();
     }
+    this.updateToolbarState();
   }
 }
 

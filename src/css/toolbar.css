@@ -50,6 +50,16 @@
   border-color: #94a3b8;
 }
 
+#toolbar button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+#toolbar button:disabled:hover {
+  background: #ffffff;
+  border-color: #cbd5e1;
+}
+
 #toolbar button.danger {
   color: #dc2626;
 }
