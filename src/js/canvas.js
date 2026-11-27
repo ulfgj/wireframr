@@ -135,11 +135,23 @@ class CanvasState {
 
   updateToolbarState() {
     const btnDuplicate = document.getElementById('btn-duplicate');
-    if (!btnDuplicate) return;
+    const btnAlignLeft = document.getElementById('btn-align-left');
+    const btnAlignCenter = document.getElementById('btn-align-center');
+    const btnAlignRight = document.getElementById('btn-align-right');
+
+    const alignButtons = [btnAlignLeft, btnAlignCenter, btnAlignRight];
 
     if (this.selectedShapes.size === 0) {
-      btnDuplicate.disabled = true;
-      btnDuplicate.title = 'Select an item to duplicate';
+      if (btnDuplicate) {
+        btnDuplicate.disabled = true;
+        btnDuplicate.title = 'Select an item to duplicate';
+      }
+      alignButtons.forEach((btn) => {
+        if (btn) {
+          btn.disabled = true;
+          btn.classList.remove('active');
+        }
+      });
       return;
     }
 
@@ -147,10 +159,46 @@ class CanvasState {
       (el) => !el.classList.contains('image') || el.classList.contains('has-image')
     );
 
-    btnDuplicate.disabled = !hasDuplicable;
-    btnDuplicate.title = hasDuplicable
-      ? 'Duplicate (Cmd/Ctrl+D)'
-      : 'Add an image first to duplicate';
+    if (btnDuplicate) {
+      btnDuplicate.disabled = !hasDuplicable;
+      btnDuplicate.title = hasDuplicable
+        ? 'Duplicate (Cmd/Ctrl+D)'
+        : 'Add an image first to duplicate';
+    }
+
+    // Update text alignment buttons based on selected shapes
+    alignButtons.forEach((btn) => {
+      if (btn) btn.disabled = false;
+    });
+
+    const shapesList = Array.from(this.selectedShapes);
+    const firstAlignment = this.getShapeAlignment(shapesList[0]);
+    const allSameAlignment = shapesList.every(
+      (shape) => this.getShapeAlignment(shape) === firstAlignment
+    );
+
+    btnAlignLeft?.classList.toggle('active', allSameAlignment && firstAlignment === 'left');
+    btnAlignCenter?.classList.toggle('active', allSameAlignment && firstAlignment === 'center');
+    btnAlignRight?.classList.toggle('active', allSameAlignment && firstAlignment === 'right');
+  }
+
+  getShapeAlignment(element) {
+    if (!element) return 'center';
+    if (element.classList.contains('align-left')) return 'left';
+    if (element.classList.contains('align-right')) return 'right';
+    return 'center';
+  }
+
+  setSelectedAlignment(align) {
+    if (this.selectedShapes.size === 0) return;
+    const validAlign = align === 'left' || align === 'right' ? align : 'center';
+
+    for (const shape of this.selectedShapes) {
+      shape.classList.remove('align-left', 'align-center', 'align-right');
+      shape.classList.add(`align-${validAlign}`);
+    }
+
+    this.updateToolbarState();
   }
 
   duplicateSelected() {
@@ -183,6 +231,7 @@ class CanvasState {
       const currentTop = el.offsetTop;
       const width = el.offsetWidth;
       const height = el.offsetHeight;
+      const align = this.getShapeAlignment(el);
 
       // Duplicate offset by 20px (matches 10px visual grid and 5px snap)
       const newShape = createShape(type, {
@@ -191,6 +240,7 @@ class CanvasState {
         width,
         height,
         label: newLabel,
+        align,
         imageSrc,
       });
 

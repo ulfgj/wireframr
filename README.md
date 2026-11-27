@@ -6,6 +6,7 @@ A lightweight, distraction-free browser tool for quick low-fidelity wireframing 
 
 ## What You Can Do
 - **Add & Auto-Number Shapes**: Insert boxes, circles, text labels, and image blocks with automatic collision-free incremental numbering (`Box! 1`, `Box! 2`...) across both creation and duplication.
+- **Text Alignment**: Align text inside items to the left, center, or right using toolbar alignment buttons or quick shortcuts (`Alt + L`, `Alt + E` / `Alt + C`, `Alt + R`).
 - **Image Blocks**: Double-click an image block (or drag-and-drop an image file onto it) to load any image into your wireframe.
 - **Marquee Multi-Selection**: Click and drag from empty canvas space to draw a selection rectangle selecting multiple shapes at once (hold `Shift` to add to selection).
 - **Group Move & Translucent Drag**: Drag elements with configurable grid snapping (`5px` default) against a 10px dot grid background; dragged items turn translucent (60% default opacity) so you can align against underlying items.
@@ -37,5 +38,4 @@ python3 -m http.server 8000
 Open [http://localhost:8000](http://localhost:8000) in your browser.
 
 ## TODOs
-- [ ] add left, center and right text in item
-- [ ] 
+- [x] add left, center and right text in item

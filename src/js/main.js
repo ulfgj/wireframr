@@ -13,6 +13,11 @@ function initApp() {
   document.getElementById('btn-delete')?.addEventListener('click', () => canvasState.deleteSelected());
   document.getElementById('btn-clear')?.addEventListener('click', () => canvasState.clearCanvas());
 
+  // Text alignment buttons
+  document.getElementById('btn-align-left')?.addEventListener('click', () => canvasState.setSelectedAlignment('left'));
+  document.getElementById('btn-align-center')?.addEventListener('click', () => canvasState.setSelectedAlignment('center'));
+  document.getElementById('btn-align-right')?.addEventListener('click', () => canvasState.setSelectedAlignment('right'));
+
   // Init settings popover & controls
   initSettingsUI();
 

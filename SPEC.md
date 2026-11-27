@@ -17,6 +17,7 @@ Wireframr is a lightweight, browser-based wireframing tool for rapid low-fidelit
    - Duplicate selected shapes (clones all selected preserving relative layout).
    - Delete selected shape(s).
    - Clear all canvas elements.
+   - Text alignment button group: Left, Center, and Right buttons to format text alignment on all selected shapes.
    - Integrated right-side utility controls (separated by a vertical divider): Settings Cogwheel (`#btn-settings`) and Shortcuts & Hints (`#btn-help` / `?`).
    - Responsive positioning: centered on wide viewports while clamping its left edge (`min 325px`) so resizing the browser window never causes the toolbar to overlap the top-left brand logo.
 4. **Shapes & Manipulation**:

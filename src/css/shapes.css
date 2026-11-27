@@ -11,6 +11,38 @@
   word-break: break-word;
 }
 
+.shape span {
+  display: inline-block;
+  width: 100%;
+}
+
+.shape.align-left {
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.shape.align-left span {
+  text-align: left;
+}
+
+.shape.align-center {
+  justify-content: center;
+  text-align: center;
+}
+
+.shape.align-center span {
+  text-align: center;
+}
+
+.shape.align-right {
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.shape.align-right span {
+  text-align: right;
+}
+
 .shape:active {
   cursor: grabbing;
 }

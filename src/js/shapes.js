@@ -161,18 +161,20 @@ function attachImageHandlers(el) {
 /**
  * Factory function to create and render a shape
  * @param {string} type - 'box' | 'circle' | 'text' | 'image'
- * @param {Object} [options] - Optional custom geometry, label, and imageSrc
+ * @param {Object} [options] - Optional custom geometry, label, alignment, and imageSrc
  * @param {number} [options.left]
  * @param {number} [options.top]
  * @param {number} [options.width]
  * @param {number} [options.height]
  * @param {string} [options.label]
+ * @param {string} [options.align] - 'left' | 'center' | 'right'
  * @param {string} [options.imageSrc]
  */
 export function createShape(type, options = {}) {
   const config = SHAPE_CONFIG[type] || SHAPE_CONFIG.box;
   const el = document.createElement('div');
-  el.className = `shape ${type}`;
+  const alignment = options.align === 'left' || options.align === 'right' ? options.align : 'center';
+  el.className = `shape ${type} align-${alignment}`;
 
   const defaultLeft = window.innerWidth / 2 - 75 + (Math.random() * 40 - 20);
   const defaultTop = window.innerHeight / 2 - 50 + (Math.random() * 40 - 20);

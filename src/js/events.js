@@ -262,6 +262,26 @@ export function initKeyboardShortcuts() {
       return;
     }
 
+    // Text alignment shortcuts: Alt+L (Left), Alt+E or Alt+C (Center), Alt+R (Right)
+    if (e.altKey && !e.metaKey && !e.ctrlKey) {
+      const key = e.key.toLowerCase();
+      if (key === 'l') {
+        e.preventDefault();
+        canvasState.setSelectedAlignment('left');
+        return;
+      }
+      if (key === 'e' || key === 'c') {
+        e.preventDefault();
+        canvasState.setSelectedAlignment('center');
+        return;
+      }
+      if (key === 'r') {
+        e.preventDefault();
+        canvasState.setSelectedAlignment('right');
+        return;
+      }
+    }
+
     // Layer ordering shortcuts: '[' / ']' step 1 layer; 'Shift+[' / 'Shift+]' jump to back/front
     if (e.key === ']' || e.key === '}' || e.code === 'BracketRight') {
       e.preventDefault();
