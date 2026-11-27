@@ -38,6 +38,7 @@ Wireframr is a lightweight, browser-based wireframing tool for rapid low-fidelit
 6. **Keyboard Shortcuts**:
    - `Backspace` or `Delete`: Deletes currently selected shape(s) (unless currently editing text).
    - `Cmd + D` / `Ctrl + D`: Duplicates currently selected shape(s) (unless currently editing text).
+   - `Alt + L` / `Alt + E` (or `Alt + C`) / `Alt + R`: Formats text alignment (left, center, right) on selected shape(s).
    - `]` / `[`: Steps selected shape(s) forward (`]`) or backward (`[`) by one layer in the z-index stack (hold `Shift` with `]` or `[` to jump all the way to the front or back).
    - `?`: Toggles the Shortcuts & Hints popover.
    - `Escape`: Closes the settings or help popover if open.
